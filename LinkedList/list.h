@@ -12,7 +12,7 @@ private:
 
 	node* head;			// private ptr head - for start of list
 	node* curr;			// private ptr curr - for current ptr
-	node* temp;			// private ptr temp - for ???
+	node* temp;			// private ptr temp - for temporary ptr
 
 public:					// public functions
 	List();							// default constructor to set all ptrs to NULL
