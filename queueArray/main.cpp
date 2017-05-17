@@ -1,8 +1,10 @@
+/* Created by: Joseph Schell
+*/
+#include <iostream>
 #include "queue.h"
 
-Queue::Queue(int size) :
-	//size{size},
-	qArray{new char[size]},		// Auto create new queue array as long as "size"
+Queue::Queue() :
+	qArray{new int[SIZE]},
 	front{-1},					// new array starts the front before 0
 	rear{-1}					// new array starts the rear before 0 also
 {
@@ -25,24 +27,102 @@ bool Queue::isEmpty()
 	}
 }
 
-bool Queue::isFull() 
+void Queue::enqueue(int num)
 {
-	return rear == SIZE - 1;
+	if ((rear + 1) % SIZE == front)			// Check if queue is full
+	{
+	cout << "The queue is full!! \n";
+	}
+	else
+	{
+		if (front == -1)					// first element inserted
+		{
+			front = 0;
+		}
+		//insert element at rear
+		rear = (rear + 1) % SIZE;
+		qArray[rear] = num;
+	}
 }
 
-ostream& operator<<(ostream& out, Queue& queue)
+void Queue::dequeue()
 {
-	out << '[';
-	if (queue.isEmpty())
-		out << "empty";
+	if (isEmpty())
+		cout << "Queue is empty\n";
 	else
-		for (int i = 0; i <= queue.rear; i++)
-			out << queue.qArray[i] << (i < queue.rear ? ", " : "");
-	out << ']' << endl;
-	return out;
+		//only one element
+		if (front == rear)
+			front = rear = -1;
+		else
+			front = (front + 1) % SIZE;
+}
+
+//function to show the element at front
+void Queue::showfront()
+{
+	if (isEmpty())
+		cout << "Queue is empty\n";
+	else
+		cout << "element at front is:" << qArray[front];
+}
+
+//function to display queue
+void Queue::displayQueue()
+{
+	if (isEmpty())
+		cout << "Queue is empty\n";
+	else
+	{
+		int i;
+		if (front <= rear)
+		{
+			for (i = front; i <= rear; i++)
+				cout << qArray[i] << " ";
+		}
+		else
+		{
+			i = front;
+			while (i < SIZE)
+			{
+				cout << qArray[i] << " ";
+				i++;
+			}
+			i = 0;
+			while (i <= rear)
+			{
+				cout << qArray[i] << " ";
+				i++;
+			}
+		}
+	}
 }
 
 int main()
 {
+	Queue q;
+	int choice, value, flag = 1;
+
+	while (flag == 1)
+	{
+		cout << "\n1.enqueue 2.dequeue 3.showfront 4.displayQueue 5.exit\n";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1: cout << "Enter Value:\n";
+			cin >> value;
+			q.enqueue(value);
+			break;
+		case 2: q.dequeue();
+			break;
+		case 3: q.showfront();
+			break;
+		case 4: q.displayQueue();
+			break;
+		case 5: flag = 0;
+			break;
+		}
+	}
+
+	system("pause");
 	return 0;
 }
